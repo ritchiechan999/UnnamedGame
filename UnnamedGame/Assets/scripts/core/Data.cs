@@ -3,25 +3,27 @@ using System.Collections.Generic;
 using UnityEngine;
 using System;
 
-public static class tdData {
-    const string _groundLayerName = "ground";
-    public static int GroundLayer => 1 << LayerMask.NameToLayer(_groundLayerName);
+public static class Data
+{
+    private const string groundLayerName = "ground";
+    public static int GroundLayer => 1 << LayerMask.NameToLayer(groundLayerName);
 }
 
-public static class tdPhysicsData {
+public static class PhysicsData
+{
     public const float GlobalGravity = -9.8f;
-    static float _gravityScale;
+    private static float gravityScale;
 
     public static void ModifyPhysics(bool onGround, Rigidbody rb, float customGravity,
                                         float dragScale, float fallMultiplier, float horizontalMovement) {
         if (onGround) {
             rb.drag = Mathf.Abs(horizontalMovement) < 0.4f ? dragScale : 0;
-            _gravityScale = 0;
+            gravityScale = 0;
         } else {
-            _gravityScale = customGravity;
+            gravityScale = customGravity;
             rb.drag = dragScale * 0.15f;
             float rbVelocityY = rb.velocity.y;
-            Vector3 newGravity = GlobalGravity * _gravityScale * Vector3.up;
+            Vector3 newGravity = GlobalGravity * gravityScale * Vector3.up;
             if (rbVelocityY < 0) {
                 newGravity *= fallMultiplier;
             } else if (rbVelocityY > 0 && !Input.GetButton("Jump")) {
@@ -32,6 +34,8 @@ public static class tdPhysicsData {
     }
 }
 
+//Note: will be using the new combo
+/*
 //combo handler stuffs
 public enum tdAttackAnimState {
     Unassigned,
@@ -50,7 +54,6 @@ public enum tdAttackType {
     Heavy = 0,
     Light = 1,
     Magic = 2,
-
 }
 
 [Serializable]
@@ -109,4 +112,4 @@ public class tdCombo {
         DoComboAtk = false;
     }
 }
-
+*/

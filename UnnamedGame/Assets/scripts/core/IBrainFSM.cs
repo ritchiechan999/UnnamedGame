@@ -2,13 +2,14 @@
 using UnityEngine;
 using System;
 
-public abstract class tdIBrainFSM : MonoBehaviour {
-    Dictionary<Type, tdIState> _states = new Dictionary<Type, tdIState>();
+public abstract class IBrainFSM : MonoBehaviour
+{
+    Dictionary<Type, IState> _states = new Dictionary<Type, IState>();
     Type _currentState;
-    tdIState _existing;
+    IState _existing;
     public bool BrainEnabled = true;
 
-    public void RegisterState(tdIState state) {
+    public void RegisterState(IState state) {
         _states[state.GetType()] = state;
     }
 
@@ -18,11 +19,11 @@ public abstract class tdIBrainFSM : MonoBehaviour {
             return false;
 
         //if not the one to be changing to
-        if (!_states.TryGetValue(stateType, out tdIState newState))
+        if (!_states.TryGetValue(stateType, out IState newState))
             return false;
 
         //correct one
-        if (_currentState != null && _states.TryGetValue(_currentState, out tdIState currentState))
+        if (_currentState != null && _states.TryGetValue(_currentState, out IState currentState))
             currentState.OnStateExit(args);
 
         _currentState = stateType;
@@ -35,11 +36,10 @@ public abstract class tdIBrainFSM : MonoBehaviour {
         if (!BrainEnabled)
             return;
 
-        if(_existing == null)
-        {
+        if (_existing == null) {
             throw new Exception(string.Format("Please used a correct state for entity"));
-        }        
-        
+        }
+
         _existing.OnStateUpdate();
         print(_existing);
     }
@@ -55,35 +55,38 @@ public abstract class tdIBrainFSM : MonoBehaviour {
     /// </summary>
     /// <param name="msgtype">message type</param>
     /// <param name="args">anything to pass through</param>
-    public void SendMessageToBrain(tdMessageType msgType, params object[] args) {
+    public void SendMessageToBrain(MessageType msgType, params object[] args) {
         _existing.OnReceiveMessage(msgType, args);
     }
 }
 
-public abstract class tdIState {
-    public tdIBrainFSM Brain;
-    public tdIState(tdIBrainFSM brain) {
+public abstract class IState
+{
+    public IBrainFSM Brain;
+    public IState(IBrainFSM brain) {
         Brain = brain;
     }
     public abstract void OnStateEnter(object[] args);
     public abstract void OnStateUpdate();
     public abstract void OnStateExit(object[] args);
-    public abstract void OnReceiveMessage(tdMessageType msgType, object[] args);
+    public abstract void OnReceiveMessage(MessageType msgType, object[] args);
 }
 
-public abstract class tdIBaseState<T> : tdIState where T : tdIBrainFSM {
+public abstract class IBaseState<T> : IState where T : IBrainFSM
+{
     protected T Entity;
     protected int InitConstruct;
-    protected tdIBaseState(T brain, int initConstruct) : base(brain) {
+    protected IBaseState(T brain, int initConstruct) : base(brain) {
         Entity = brain;
         InitConstruct = initConstruct; //to resolved default constructor issues
     }
-    protected tdIBaseState(T brain) : base(brain) {
+    protected IBaseState(T brain) : base(brain) {
         Entity = brain;
     }
 }
 
-public enum tdMessageType {
+public enum MessageType
+{
     None,
     Move,
     Jump,
