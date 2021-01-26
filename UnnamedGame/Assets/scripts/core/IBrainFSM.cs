@@ -9,11 +9,13 @@ public abstract class IBrainFSM : MonoBehaviour
     IState _existing;
     public bool BrainEnabled = true;
 
-    public void RegisterState(IState state) {
+    public void RegisterState(IState state)
+    {
         _states[state.GetType()] = state;
     }
 
-    public bool ChangeState(Type stateType, params object[] args) {
+    public bool ChangeState(Type stateType, params object[] args)
+    {
         //if same type
         if (_currentState == stateType)
             return false;
@@ -32,7 +34,8 @@ public abstract class IBrainFSM : MonoBehaviour
         return true;
     }
 
-    public void UpdateBrain() {
+    public void UpdateBrain()
+    {
         if (!BrainEnabled)
             return;
 
@@ -45,7 +48,8 @@ public abstract class IBrainFSM : MonoBehaviour
     }
 
     //still testing
-    public bool HasState(Type key) {
+    public bool HasState(Type key)
+    {
         return _states.ContainsKey(key);
     }
 
@@ -55,7 +59,8 @@ public abstract class IBrainFSM : MonoBehaviour
     /// </summary>
     /// <param name="msgtype">message type</param>
     /// <param name="args">anything to pass through</param>
-    public void SendMessageToBrain(MessageType msgType, params object[] args) {
+    public void SendMessageToBrain(ugMessageType msgType, params object[] args)
+    {
         _existing.OnReceiveMessage(msgType, args);
     }
 }
@@ -63,29 +68,32 @@ public abstract class IBrainFSM : MonoBehaviour
 public abstract class IState
 {
     public IBrainFSM Brain;
-    public IState(IBrainFSM brain) {
+    public IState(IBrainFSM brain)
+    {
         Brain = brain;
     }
     public abstract void OnStateEnter(object[] args);
     public abstract void OnStateUpdate();
     public abstract void OnStateExit(object[] args);
-    public abstract void OnReceiveMessage(MessageType msgType, object[] args);
+    public abstract void OnReceiveMessage(ugMessageType msgType, object[] args);
 }
 
 public abstract class IBaseState<T> : IState where T : IBrainFSM
 {
     protected T Entity;
     protected int InitConstruct;
-    protected IBaseState(T brain, int initConstruct) : base(brain) {
+    protected IBaseState(T brain, int initConstruct) : base(brain)
+    {
         Entity = brain;
         InitConstruct = initConstruct; //to resolved default constructor issues
     }
-    protected IBaseState(T brain) : base(brain) {
+    protected IBaseState(T brain) : base(brain)
+    {
         Entity = brain;
     }
 }
 
-public enum MessageType
+public enum ugMessageType
 {
     None,
     Move,

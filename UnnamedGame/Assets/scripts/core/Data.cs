@@ -14,8 +14,9 @@ public static class PhysicsData
     public const float GlobalGravity = -9.8f;
     private static float gravityScale;
 
-    public static void ModifyPhysics(bool onGround, Rigidbody rb, float customGravity,
-                                        float dragScale, float fallMultiplier, float horizontalMovement) {
+    public static void ModifyPhysics(bool onGround, Rigidbody2D rb, float customGravity,
+                                        float dragScale, float fallMultiplier, float horizontalMovement)
+    {
         if (onGround) {
             rb.drag = Mathf.Abs(horizontalMovement) < 0.4f ? dragScale : 0;
             gravityScale = 0;
@@ -29,7 +30,8 @@ public static class PhysicsData
             } else if (rbVelocityY > 0 && !Input.GetButton("Jump")) {
                 newGravity *= fallMultiplier / 2;
             }
-            rb.AddForce(newGravity, ForceMode.Acceleration);
+           // rb.AddForce(newGravity, ForceMode.Acceleration);
+            rb.AddForce(newGravity, ForceMode2D.Force);
         }
     }
 }
