@@ -51,30 +51,30 @@ public class NavigationState : IBaseState<BaseEntity>
     }
 
     public float SprintDownSpeed = 0.1f;
-    float _sprintSpeed;
+    private float sprintSpeed;
     public float SprintTimeTreshold = 1f;
-    float _sprintTime;
-    bool _isSprinting;
+    private float sprintTime;
+    private bool isSprinting;
 
     void MovementAnimation(float xDir)
     {
         float moveSpeed = Mathf.Abs(xDir);
         float maxSpeed = Entity.AnimCtrl.GetFloat("nav_speed");
         if (maxSpeed >= 1 && moveSpeed == 1) {
-            if (_sprintTime < SprintTimeTreshold) {
-                _sprintTime += Time.deltaTime;
+            if (sprintTime < SprintTimeTreshold) {
+                sprintTime += Time.deltaTime;
             } else {
-                _isSprinting = true;
-                _sprintSpeed += Time.deltaTime;
+                isSprinting = true;
+                sprintSpeed += Time.deltaTime;
             }
         } else {
-            _isSprinting = false;
-            _sprintSpeed -= SprintDownSpeed / Time.deltaTime;
-            _sprintTime = 0;
+            isSprinting = false;
+            sprintSpeed -= SprintDownSpeed / Time.deltaTime;
+            sprintTime = 0;
         }
-        _sprintTime = Mathf.Clamp(_sprintTime, 0, SprintTimeTreshold);
-        _sprintSpeed = Mathf.Clamp01(_sprintSpeed);
-        moveSpeed += _sprintSpeed;
+        sprintTime = Mathf.Clamp(sprintTime, 0, SprintTimeTreshold);
+        sprintSpeed = Mathf.Clamp01(sprintSpeed);
+        moveSpeed += sprintSpeed;
         Entity.AnimCtrl.SetFloat("nav_speed", moveSpeed);
     }
 
@@ -83,7 +83,7 @@ public class NavigationState : IBaseState<BaseEntity>
     {
         float sprintSpeed = Mathf.Lerp(Entity.MinMaxMoveSpeed.y, Entity.MinMaxMoveSpeed.x, Entity.MoveSmoothSpeed);
         float runSpeed = Mathf.Lerp(Entity.MinMaxMoveSpeed.x, Entity.MinMaxMoveSpeed.y, Entity.MoveSmoothSpeed);
-        Entity.CurrentSpeed = _isSprinting && Entity.OnGround ? sprintSpeed : runSpeed;
+        Entity.CurrentSpeed = isSprinting && Entity.OnGround ? sprintSpeed : runSpeed;
         Entity.RgdBdy2D.velocity = new Vector2(xDir * Entity.CurrentSpeed, Entity.RgdBdy2D.velocity.y);
     }
 }

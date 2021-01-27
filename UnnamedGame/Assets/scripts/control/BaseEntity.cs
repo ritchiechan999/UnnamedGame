@@ -55,7 +55,7 @@ public abstract class BaseEntity : IBrainFSM
         //_lastRotation = new Quaternion(0, 0.7f, 0, 0.7f);
         //RgdBdy2D.useGravity = false;
         //lastRotation = new Quaternion(0, 0.7f, 0, 0.7f);
-        RgdBdy2D.gravityScale = 0;
+        //RgdBdy2D.gravityScale = 0;
     }
 
     void InitializeFSM()
@@ -74,27 +74,20 @@ public abstract class BaseEntity : IBrainFSM
         ChangeState(cs);
     }
 
-    //TODO: 2D rotation only
     public void RotateEntity(float xDir)
     {
-        if (xDir == 0) {
-            this.transform.rotation = lastRotation;
-            return;
-        }
-        Quaternion rotation = Quaternion.Slerp(this.transform.rotation,
-                                Quaternion.LookRotation(new Vector3(0, xDir, 0)), RotateSmoothSpeed);
-        transform.rotation = rotation;
-        lastRotation = rotation;
-        IsFacingRight = transform.rotation.y > 0;
+        if (!IsFacingRight && xDir > 0)
+            FlipSprite();
+        else if (IsFacingRight && xDir < 0)
+            FlipSprite();
+    }
 
-        //if (xDir == 0) {
-        //    this.transform.localScale = Vector3.one;
-        //    return;
-        //}
-
-        //Vector3 lookScale = Vector3.one;
-        //lookScale.x = (int)xDir;
-        //this.transform.localScale = lookScale;
+    private void FlipSprite()
+    {
+        IsFacingRight = !IsFacingRight;
+        Vector3 flipScale = RgdBdy2D.transform.localScale;
+        flipScale.x *= -1;
+        RgdBdy2D.transform.localScale = flipScale;
     }
 
     // Update is called once per frame
@@ -109,13 +102,13 @@ public abstract class BaseEntity : IBrainFSM
             SendMessageToBrain(ugMessageType.Jump);
         }
 
-        PhysicsData.ModifyPhysics(OnGround, RgdBdy2D, CustomGravity, Drag, FallMultiplier, Velocity.x);
+        //PhysicsData.ModifyPhysics(OnGround, RgdBdy2D, CustomGravity, Drag, FallMultiplier, Velocity.x);
     }
 
     private void OnDrawGizmos()
     {
         Gizmos.color = Color.red;
-        Vector3 currentPos = this.transform.position;
+        Vector3 currentPos = RgdBdy2D.transform.position;
         Gizmos.DrawLine(currentPos + ColliderOffset, currentPos + ColliderOffset + Vector3.down * GroundLength);
     }
 }
