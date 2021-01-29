@@ -21,9 +21,11 @@ public class CharacterController : BaseEntity
     private void MovementControl()
     {
         float hAxis = Input.GetAxis("Horizontal");
-        SendMessageToBrain(ugMessageType.Move, hAxis);
+        if (hAxis != 0)
+            SendMessageToBrain(ugMessageType.Move, hAxis);
 
-        OnGround = Physics2D.Raycast(transform.position + ColliderOffset,
+        Vector3 currentPos = RgdBdy2D.transform.position;
+        OnGround = Physics2D.Raycast(currentPos + ColliderOffset,
                      Vector2.down, GroundLength, Data.GroundLayer);
 
         if (Input.GetKeyDown(KeyCode.Space)) {

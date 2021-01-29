@@ -19,7 +19,7 @@ public abstract class BaseEntity : IBrainFSM
     public float CurrentSpeed = 7f;
 
     [Header("Vertical Movement")]
-    public float JumpSpeed = 15f;
+    public float JumpVelocity = 10f;
     public float JumpDelay = 0.25f;
     public float JumpTimer;
 
@@ -33,11 +33,11 @@ public abstract class BaseEntity : IBrainFSM
     public Vector3 ColliderOffset;
     public bool OnGround;
 
-    [Header("Physics")]
-    [Range(1, 10)]
-    public float CustomGravity = 1f;
-    public float FallMultiplier = 5f;
-    public float Drag = 4f;
+    [Header("Physics 2D")]
+    [Range(1, 5)]
+    public float FallMultiplier = 2.5f;
+    [Range(1, 5)]
+    public float LowJumpMultiplier = 2f;
 
     [Header("Debug")]
     public Vector3 Velocity;
@@ -47,15 +47,8 @@ public abstract class BaseEntity : IBrainFSM
     {
         if (RgdBdy2D == null || AnimCtrl == null)
             throw new Exception(string.Format("Rigidbody2D or Animator Component unassigned"));
-        //RgdBdy2D = this.GetComponent<Rigidbody2D>();
-        //AnimCtrl = this.GetComponent<Animator>();
 
         InitializeFSM();
-
-        //_lastRotation = new Quaternion(0, 0.7f, 0, 0.7f);
-        //RgdBdy2D.useGravity = false;
-        //lastRotation = new Quaternion(0, 0.7f, 0, 0.7f);
-        //RgdBdy2D.gravityScale = 0;
     }
 
     void InitializeFSM()
@@ -102,7 +95,7 @@ public abstract class BaseEntity : IBrainFSM
             SendMessageToBrain(ugMessageType.Jump);
         }
 
-        //PhysicsData.ModifyPhysics(OnGround, RgdBdy2D, CustomGravity, Drag, FallMultiplier, Velocity.x);
+        PhysicsData.JumpGravityCalculation(RgdBdy2D, FallMultiplier, LowJumpMultiplier);
     }
 
     private void OnDrawGizmos()

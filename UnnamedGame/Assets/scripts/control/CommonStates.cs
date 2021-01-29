@@ -21,7 +21,7 @@ public class NavigationState : IBaseState<BaseEntity>
                 //Entity.AnimCtrl.SetTrigger("jump");
                 //Entity.AnimCtrl.SetFloat("nav_speed", 0);
                 Entity.Velocity = new Vector2(Entity.Velocity.x, 0);
-                Entity.RgdBdy2D.AddForce(Vector2.up * Entity.JumpSpeed, ForceMode2D.Impulse);
+                Entity.RgdBdy2D.AddForce(Vector2.up * Entity.JumpVelocity, ForceMode2D.Impulse);
                 Entity.JumpTimer = 0;
                 break;
             case ugMessageType.Attack:
