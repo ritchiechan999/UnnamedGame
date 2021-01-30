@@ -4,10 +4,13 @@ using System;
 
 public abstract class IBrainFSM : MonoBehaviour
 {
-    Dictionary<Type, IState> _states = new Dictionary<Type, IState>();
-    Type _currentState;
-    IState _existing;
+    private Dictionary<Type, IState> _states = new Dictionary<Type, IState>();
+    private Type _currentState;
+    private IState _existing;
+
+    [Header("Entity Property")]
     public bool BrainEnabled = true;
+    public bool IsAI = true;
 
     public void RegisterState(IState state)
     {

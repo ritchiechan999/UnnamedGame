@@ -6,7 +6,9 @@ using System;
 public static class Data
 {
     private const string groundLayerName = "ground";
+    private const string entityLayerName = "entity";
     public static int GroundLayer => 1 << LayerMask.NameToLayer(groundLayerName);
+    public static int EntityLayer => 1 << LayerMask.NameToLayer(entityLayerName);
 }
 
 public static class PhysicsData
@@ -45,6 +47,14 @@ public static class PhysicsData
             rb.velocity += Vector2.up * verticalGravity * (lowFallMultiplier - 1) * Time.deltaTime;
         }
     }
+}
+
+public enum Team
+{
+    Unassigned,
+    Team1,
+    Team2,
+
 }
 
 //Note: will be using the new combo

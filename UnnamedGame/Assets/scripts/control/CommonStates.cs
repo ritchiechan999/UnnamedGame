@@ -10,11 +10,27 @@ public class NavigationState : IBaseState<BaseEntity>
     {
         switch (msgType) {
             case ugMessageType.Move:
-                float horizontal = (float)args[0];
-                MoveEntity(horizontal);
-                Entity.RotateEntity(horizontal);
-                if (Entity.OnGround) {
-                    //MovementAnimation(horizontal);
+                if (!Entity.IsAI) {
+                    float horizontal = (float)args[0];
+                    MoveEntity(horizontal);
+                    Entity.RotateEntity(horizontal);
+                    if (Entity.OnGround) {
+                        //MovementAnimation(horizontal);
+                    }
+                    return;
+                }
+
+                if (Entity.IsAI) {
+
+                    Transform target = (Transform)args[0];
+                    if (Vector2.Distance(Entity.RgdBdy2D.position, target.position) < Entity.DistanceTreshold) {
+                        //TODO send message to do attack state or something
+                        return;
+                    }
+                    Vector2 direction = ((Vector2)target.position - Entity.RgdBdy2D.position).normalized;
+                    direction.y = 0;
+                    MoveEntity(direction);
+                    Entity.RotateEntity(direction.x);
                 }
                 break;
             case ugMessageType.Jump:
@@ -85,6 +101,11 @@ public class NavigationState : IBaseState<BaseEntity>
         float runSpeed = Mathf.Lerp(Entity.MinMaxMoveSpeed.x, Entity.MinMaxMoveSpeed.y, Entity.MoveSmoothSpeed);
         Entity.CurrentSpeed = isSprinting && Entity.OnGround ? sprintSpeed : runSpeed;
         Entity.RgdBdy2D.velocity = new Vector2(xDir * Entity.CurrentSpeed, Entity.RgdBdy2D.velocity.y);
+    }
+
+    private void MoveEntity(Vector2 direction)
+    {
+        Entity.RgdBdy2D.velocity = direction * Entity.MinMaxMoveSpeed.x;
     }
 }
 

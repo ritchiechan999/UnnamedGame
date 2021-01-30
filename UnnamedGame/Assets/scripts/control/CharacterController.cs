@@ -24,10 +24,6 @@ public class CharacterController : BaseEntity
         if (hAxis != 0)
             SendMessageToBrain(ugMessageType.Move, hAxis);
 
-        Vector3 currentPos = RgdBdy2D.transform.position;
-        OnGround = Physics2D.Raycast(currentPos + ColliderOffset,
-                     Vector2.down, GroundLength, Data.GroundLayer);
-
         if (Input.GetKeyDown(KeyCode.Space)) {
             JumpTimer = Time.time + JumpDelay;
         }

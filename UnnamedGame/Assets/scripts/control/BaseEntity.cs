@@ -5,6 +5,9 @@ using System;
 
 public abstract class BaseEntity : IBrainFSM
 {
+    [Header("Entity Team")]
+    public Team EntityTeam = Team.Unassigned;
+
     [Header("Entity States")]
     public EntityState[] EntityStates;
     public EntityState FirstEntityState;
@@ -25,13 +28,16 @@ public abstract class BaseEntity : IBrainFSM
 
     [Header("Rotation")]
     public bool IsFacingRight = true;
-    private Quaternion lastRotation;
-    public float RotateSmoothSpeed = 0.15f;
 
-    [Header("Collision")]
+    [Header("Ground Check")]
     public float GroundLength = 0.6f;
     public Vector3 ColliderOffset;
     public bool OnGround;
+
+    [Header("Detection")]
+    public float DetectRadius = 3f;
+    public float DistanceTreshold = 1.5f;
+    public Transform Target;
 
     [Header("Physics 2D")]
     [Range(1, 5)]
@@ -51,9 +57,9 @@ public abstract class BaseEntity : IBrainFSM
         InitializeFSM();
     }
 
-    void InitializeFSM()
+    private void InitializeFSM()
     {
-        //TODO add
+        //TODO add acronym to __${s}State
         foreach (EntityState s in EntityStates) {
             string strType = $"{s}State";
             Type t = Type.GetType(strType);
@@ -87,6 +93,10 @@ public abstract class BaseEntity : IBrainFSM
     protected virtual void Update()
     {
         UpdateBrain();
+
+        Vector3 currentPos = RgdBdy2D.transform.position;
+        OnGround = Physics2D.Raycast(currentPos + ColliderOffset, 
+            Vector2.down, GroundLength, Data.GroundLayer);
     }
 
     private void FixedUpdate()
@@ -94,14 +104,24 @@ public abstract class BaseEntity : IBrainFSM
         if (JumpTimer > Time.time && OnGround) {
             SendMessageToBrain(ugMessageType.Jump);
         }
-
         PhysicsData.JumpGravityCalculation(RgdBdy2D, FallMultiplier, LowJumpMultiplier);
     }
 
     private void OnDrawGizmos()
     {
-        Gizmos.color = Color.red;
+        if (RgdBdy2D == null)
+            return;
+
         Vector3 currentPos = RgdBdy2D.transform.position;
+
+        //for detection
+        if (IsAI) {
+            Gizmos.color = Color.green;
+            Gizmos.DrawWireSphere(currentPos, DetectRadius);
+        }
+
+        //for ground
+        Gizmos.color = Color.red;
         Gizmos.DrawLine(currentPos + ColliderOffset, currentPos + ColliderOffset + Vector3.down * GroundLength);
     }
 }
