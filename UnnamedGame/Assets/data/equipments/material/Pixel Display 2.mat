@@ -1,0 +1,60 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!21 &2100000
+Material:
+  serializedVersion: 6
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: Pixel Display 2
+  m_Shader: {fileID: 4800000, guid: 04a3304f82284254b8895acfaf8d6af7, type: 3}
+  m_ShaderKeywords: ETC1_EXTERNAL_ALPHA
+  m_LightmapFlags: 0
+  m_EnableInstancingVariants: 0
+  m_DoubleSidedGI: 0
+  m_CustomRenderQueue: -1
+  stringTagMap: {}
+  disabledShaderPasses: []
+  m_SavedProperties:
+    serializedVersion: 3
+    m_TexEnvs:
+    - _LCDPixels:
+        m_Texture: {fileID: 2800000, guid: f8b39c64e4d503246a0d6362362a6eeb, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _MainTexture:
+        m_Texture: {fileID: 2800000, guid: 4e8e0b283334e6e44a9e4b314c657f03, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _texcoord:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    m_Floats:
+    - _Brightness: 1.8
+    - _CloseBrightness: 1
+    - _DimFreq: 1
+    - _DimPower: 2
+    - _DimSpeed: 0.25
+    - _DimStrength: 0.8
+    - _DimWidth: 0.01
+    - _FarBrightness: 1.51
+    - _GlitchPixelsX: 8
+    - _GlitchPixelsY: 8
+    - _MaxDistance: 5
+    - _MinDistance: 0.25
+    - _PixelsX: 139.75
+    - _PixelsY: 261.2
+    - _PulseFreq: 1
+    - _PulseLead: 0.1
+    - _PulsePower: 3
+    - _PulseSpeed: 1.5
+    - _PulseWidth: 0.06
+    - _WobbleFreq: -1
+    - _WobbleSpeed: 1
+    - _WobbleStrength: 0.01
+    - __dirty: 1
+    m_Colors:
+    - _EdgeGlowColour: {r: 1, g: 0.023584902, b: 0.023584902, a: 1}
+  m_BuildTextureStacks: []
