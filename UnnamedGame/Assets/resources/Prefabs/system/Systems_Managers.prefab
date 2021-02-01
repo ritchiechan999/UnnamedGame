@@ -1,0 +1,64 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &2069140796365830553
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2069140796365830555}
+  - component: {fileID: 4354769977098905592}
+  - component: {fileID: 2069140796365830552}
+  m_Layer: 0
+  m_Name: Systems_Managers
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &2069140796365830555
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2069140796365830553}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &4354769977098905592
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2069140796365830553}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0ed5811ebf11e0d4d8b46424d840b20c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  UIBagFolder: ui_bags
+  SceneCanvasPrefab: {fileID: 4736553354824228101, guid: e3b6548718c3b8b47bce96e2de5c1554, type: 3}
+  WorldSpaceCanvasPrefab: {fileID: 2693244450716381173, guid: c426b8d64387bad458dee49519f835dc, type: 3}
+  SceneCanvas: {fileID: 0}
+  WorldSpaceCanvas: {fileID: 0}
+--- !u!114 &2069140796365830552
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2069140796365830553}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 564a523f072e9434181d50ecfc3a2960, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ShopLocation: {fileID: 0}

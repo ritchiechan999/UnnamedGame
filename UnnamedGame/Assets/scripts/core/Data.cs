@@ -7,8 +7,10 @@ public static class Data
 {
     private const string groundLayerName = "ground";
     private const string entityLayerName = "entity";
+    private const string interactableLayerName = "interactable";
     public static int GroundLayer => 1 << LayerMask.NameToLayer(groundLayerName);
     public static int EntityLayer => 1 << LayerMask.NameToLayer(entityLayerName);
+    public static int InteractableLayer => 1 << LayerMask.NameToLayer(interactableLayerName);
 }
 
 public static class PhysicsData

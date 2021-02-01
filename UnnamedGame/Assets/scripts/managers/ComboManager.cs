@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using UnityEngine;
 using System;
 
-public class testComboManager : MonoBehaviour
+public class ComboManager : MonoBehaviour
 {
-    public static testComboManager instance { private set; get; }
+    public static ComboManager instance { private set; get; }
 
     [Header("Combo")]
     public float inputResetLeeway = 0.2f;

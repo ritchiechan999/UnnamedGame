@@ -10,20 +10,20 @@ public class ComboBehaviour : StateMachineBehaviour
     // OnStateEnter is called when a transition starts and the state machine starts to evaluate this state
     override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
-        testComboManager.instance.canReceiveInput = true;
+        ComboManager.instance.canReceiveInput = true;
     }
 
     // OnStateUpdate is called on each Update frame between OnStateEnter and OnStateExit callbacks
     override public void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
-        if (testComboManager.instance.inputReceived)
+        if (ComboManager.instance.inputReceived)
         {
             if (animStateInt != tdComboAttack.Default 
-                && testComboManager.instance.currentInputKey == inputKey)
+                && ComboManager.instance.currentInputKey == inputKey)
             {
                 animator.SetInteger("animState", (int)animStateInt);
-                testComboManager.instance.InputManager();
-                testComboManager.instance.inputReceived = false;
+                ComboManager.instance.InputManager();
+                ComboManager.instance.inputReceived = false;
             }
         }
     }
