@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using System;
 
-public static class Data
+public static class assData
 {
     private const string groundLayerName = "ground";
     private const string entityLayerName = "entity";
@@ -13,7 +13,7 @@ public static class Data
     public static int InteractableLayer => 1 << LayerMask.NameToLayer(interactableLayerName);
 }
 
-public static class PhysicsData
+public static class assPhysicsData
 {
     public const float GlobalGravity = -9.8f;
     private static float gravityScale;
@@ -51,7 +51,7 @@ public static class PhysicsData
     }
 }
 
-public enum Team
+public enum assTeam
 {
     Unassigned,
     Team1,
@@ -59,7 +59,7 @@ public enum Team
 
 }
 
-//Note: will be using the new combo
+//NOTE: will be using the new combo
 /*
 //combo handler stuffs
 public enum tdAttackAnimState {

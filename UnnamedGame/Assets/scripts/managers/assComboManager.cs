@@ -3,10 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 using System;
 
-public class ComboManager : MonoBehaviour
+public class assComboManager : SimpleSingleton<assComboManager>
 {
-    public static ComboManager instance { private set; get; }
-
     [Header("Combo")]
     public float inputResetLeeway = 0.2f;
 
@@ -17,30 +15,21 @@ public class ComboManager : MonoBehaviour
 
     private readonly Array keyCodes = Enum.GetValues(typeof(KeyCode));
 
-    private void Awake()
-    {
-        instance = this;
-    }
-
     // Update is called once per frame
-    void Update()
+    private void Update()
     {
         Attack();
     }
 
     public void Attack()
     {
-        if (Input.anyKeyDown)
-        {
-            if (canReceiveInput)
-            {
+        if (Input.anyKeyDown) {
+            if (canReceiveInput) {
                 inputReceived = true;
                 canReceiveInput = false;
 
-                foreach (KeyCode keyCode in keyCodes)
-                {
-                    if (Input.GetKey(keyCode))
-                    {
+                foreach (KeyCode keyCode in keyCodes) {
+                    if (Input.GetKey(keyCode)) {
                         Debug.Log("KeyCode down: " + keyCode);
                         currentInputKey = keyCode;
                         Invoke(nameof(ResetCanReceivedInput), inputResetLeeway);
@@ -69,5 +58,5 @@ public enum tdComboAttack
     Default = 0,
     LightAttackOne = 1,
     LightAttackTwo = 2,
-    
+
 }

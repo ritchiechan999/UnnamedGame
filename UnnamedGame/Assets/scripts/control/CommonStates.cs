@@ -2,14 +2,25 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class NavigationState : IBaseState<BaseEntity>
+//NOTE: all states must have prefix and suffix of ass and State
+//eg. assNavigationState (ass*Name*State)
+public enum assEntityState
 {
-    public NavigationState(BaseEntity brain, int initConstruct) : base(brain) { }
+    Unassigned,
+    Navigation,
+    Attack,
+    FirstPhase,
+    FinalPhase
+}
 
-    public override void OnReceiveMessage(ugMessageType msgType, object[] args)
+public class assNavigationState : IBaseState<assBaseEntity>
+{
+    public assNavigationState(assBaseEntity brain, int initConstruct) : base(brain) { }
+
+    public override void OnReceiveMessage(assMessageType msgType, object[] args)
     {
         switch (msgType) {
-            case ugMessageType.Move:
+            case assMessageType.Move:
                 if (!Entity.IsAI) {
                     float horizontal = (float)args[0];
                     MoveEntity(horizontal);
@@ -21,10 +32,10 @@ public class NavigationState : IBaseState<BaseEntity>
                 }
 
                 if (Entity.IsAI) {
-
                     Transform target = (Transform)args[0];
                     if (Vector2.Distance(Entity.RgdBdy2D.position, target.position) < Entity.DistanceTreshold) {
                         //TODO send message to do attack state or something
+                        Entity.SendMessageToBrain(assMessageType.Attack, target);
                         return;
                     }
                     Vector2 direction = ((Vector2)target.position - Entity.RgdBdy2D.position).normalized;
@@ -33,19 +44,24 @@ public class NavigationState : IBaseState<BaseEntity>
                     Entity.RotateEntity(direction.x);
                 }
                 break;
-            case ugMessageType.Jump:
+            case assMessageType.Jump:
                 //Entity.AnimCtrl.SetTrigger("jump");
                 //Entity.AnimCtrl.SetFloat("nav_speed", 0);
                 Entity.Velocity = new Vector2(Entity.Velocity.x, 0);
                 Entity.RgdBdy2D.AddForce(Vector2.up * Entity.JumpVelocity, ForceMode2D.Impulse);
                 Entity.JumpTimer = 0;
                 break;
-            case ugMessageType.Attack:
-                //go to attack state
-                //Entity.ChangeState(typeof(tdAttackState), args);
+            case assMessageType.Attack:
+                Entity.ChangeState(typeof(assAttackState), args);
                 break;
-            case ugMessageType.Flinch:
+            case assMessageType.Flinch:
                 //chance to change state or idk to be discussed
+                break;
+            case assMessageType.FirstPhaseActivate:
+                Entity.ChangeState(typeof(assFirstPhaseState), args);
+                break;
+            case assMessageType.FinalPhaseActivate:
+                Entity.ChangeState(typeof(assFinalPhaseState), args);
                 break;
             default:
                 break;
@@ -109,18 +125,27 @@ public class NavigationState : IBaseState<BaseEntity>
     }
 }
 
-//TODO: revise State
-public class AttackState : IBaseState<BaseEntity>
+public class assAttackState : IBaseState<assBaseEntity>
 {
-    public AttackState(BaseEntity brain, int initConstruct) : base(brain) { }
-    public override void OnReceiveMessage(ugMessageType msgType, object[] args)
+    //timer to when the attack lasts
+    private float attackDuration = 2f;
+    private float meleeRange = 4f;
+
+    public assAttackState(assBaseEntity brain, int initConstruct) : base(brain) { }
+    public override void OnReceiveMessage(assMessageType msgType, object[] args)
     {
         switch (msgType) {
-            case ugMessageType.Attack:
+            case assMessageType.Attack:
                 //tdAttack currentAtk = (tdAttack)args[0];
                 //Entity.AnimCtrl.SetInteger("anim_state", (int)currentAtk.AnimState);
                 break;
-            case ugMessageType.Flinch:
+            case assMessageType.Flinch:
+                break;
+            case assMessageType.FirstPhaseActivate:
+                Entity.ChangeState(typeof(assFirstPhaseState), args);
+                break;
+            case assMessageType.FinalPhaseActivate:
+                Entity.ChangeState(typeof(assFinalPhaseState), args);
                 break;
         }
     }
@@ -131,6 +156,19 @@ public class AttackState : IBaseState<BaseEntity>
             //tdAttack currentAtk = (tdAttack)args[0];
             //Entity.AnimCtrl.SetInteger("anim_state", (int)currentAtk.AnimState);
         }
+
+        //prototype TODO: to improved
+        if (Entity.IsAI) {
+            Transform target = (Transform)args[0];
+
+            if (Vector2.Distance(Entity.RgdBdy2D.position, target.position) < meleeRange) {
+                Debug.Log("Normal Melee Atk");
+                attackDuration = 1f;
+            } else {
+                Debug.Log("Normal Range Atk");
+                attackDuration = 2f;
+            }
+        }
     }
 
     public override void OnStateExit(object[] args)
@@ -139,5 +177,63 @@ public class AttackState : IBaseState<BaseEntity>
 
     public override void OnStateUpdate()
     {
+        attackDuration -= Time.deltaTime;
+        if (attackDuration <= 0) {
+            Entity.ChangeState(typeof(assNavigationState));
+        }
+    }
+}
+
+public class assFirstPhaseState : IBaseState<assBaseEntity>
+{
+    public assFirstPhaseState(assBaseEntity brain, int initConstruct) : base(brain) { }
+
+    public override void OnReceiveMessage(assMessageType msgType, object[] args)
+    {
+        switch (msgType) {
+            case assMessageType.FinalPhaseActivate:
+                Entity.ChangeState(typeof(assFinalPhaseState), args);
+                break;
+        }
+    }
+
+    public override void OnStateEnter(object[] args)
+    {
+
+    }
+
+    public override void OnStateExit(object[] args)
+    {
+
+    }
+
+    public override void OnStateUpdate()
+    {
+
+    }
+}
+
+public class assFinalPhaseState : IBaseState<assBaseEntity>
+{
+    public assFinalPhaseState(assBaseEntity brain, int initConstruct) : base(brain) { }
+
+    public override void OnReceiveMessage(assMessageType msgType, object[] args)
+    {
+
+    }
+
+    public override void OnStateEnter(object[] args)
+    {
+
+    }
+
+    public override void OnStateExit(object[] args)
+    {
+
+    }
+
+    public override void OnStateUpdate()
+    {
+
     }
 }

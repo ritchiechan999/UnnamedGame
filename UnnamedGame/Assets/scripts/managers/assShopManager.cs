@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ShopManager : SimpleSingleton<ShopManager>
+public class assShopManager : SimpleSingleton<assShopManager>
 {
     //do the logic here
 

@@ -6,7 +6,7 @@ public abstract class IBrainFSM : MonoBehaviour
 {
     private Dictionary<Type, IState> _states = new Dictionary<Type, IState>();
     private Type _currentState;
-    private IState _existing;
+    protected IState _existing;
 
     [Header("Entity Property")]
     public bool BrainEnabled = true;
@@ -47,7 +47,7 @@ public abstract class IBrainFSM : MonoBehaviour
         }
 
         _existing.OnStateUpdate();
-        print(_existing);
+        Debug.Log(_existing);
     }
 
     //still testing
@@ -62,7 +62,7 @@ public abstract class IBrainFSM : MonoBehaviour
     /// </summary>
     /// <param name="msgtype">message type</param>
     /// <param name="args">anything to pass through</param>
-    public void SendMessageToBrain(ugMessageType msgType, params object[] args)
+    public void SendMessageToBrain(assMessageType msgType, params object[] args)
     {
         _existing.OnReceiveMessage(msgType, args);
     }
@@ -78,7 +78,7 @@ public abstract class IState
     public abstract void OnStateEnter(object[] args);
     public abstract void OnStateUpdate();
     public abstract void OnStateExit(object[] args);
-    public abstract void OnReceiveMessage(ugMessageType msgType, object[] args);
+    public abstract void OnReceiveMessage(assMessageType msgType, object[] args);
 }
 
 public abstract class IBaseState<T> : IState where T : IBrainFSM
@@ -96,11 +96,13 @@ public abstract class IBaseState<T> : IState where T : IBrainFSM
     }
 }
 
-public enum ugMessageType
+public enum assMessageType
 {
     None,
     Move,
     Jump,
     Attack,
-    Flinch
+    Flinch,
+    FinalPhaseActivate,
+    FirstPhaseActivate
 }

@@ -2,28 +2,29 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ComboBehaviour : StateMachineBehaviour
+public class assComboBehaviour : StateMachineBehaviour
 {
     public tdComboAttack animStateInt = tdComboAttack.Default;
     public KeyCode inputKey;
+    private assComboManager instance = assComboManager.Instance;
 
     // OnStateEnter is called when a transition starts and the state machine starts to evaluate this state
     override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
-        ComboManager.instance.canReceiveInput = true;
+        instance.canReceiveInput = true;
     }
 
     // OnStateUpdate is called on each Update frame between OnStateEnter and OnStateExit callbacks
     override public void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
-        if (ComboManager.instance.inputReceived)
+        if (instance.inputReceived)
         {
             if (animStateInt != tdComboAttack.Default 
-                && ComboManager.instance.currentInputKey == inputKey)
+                && instance.currentInputKey == inputKey)
             {
                 animator.SetInteger("animState", (int)animStateInt);
-                ComboManager.instance.InputManager();
-                ComboManager.instance.inputReceived = false;
+                instance.InputManager();
+                instance.inputReceived = false;
             }
         }
     }

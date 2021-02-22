@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class CharacterController : BaseEntity
+public class assCharacterController : assBaseEntity
 {
     // Start is called before the first frame update
     protected override void Start()
@@ -22,7 +22,7 @@ public class CharacterController : BaseEntity
     {
         float hAxis = Input.GetAxis("Horizontal");
         if (hAxis != 0)
-            SendMessageToBrain(ugMessageType.Move, hAxis);
+            SendMessageToBrain(assMessageType.Move, hAxis);
 
         if (Input.GetKeyDown(KeyCode.Space)) {
             JumpTimer = Time.time + JumpDelay;
