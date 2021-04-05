@@ -41,6 +41,7 @@ public class assAIController : assBaseEntity
 
     public override void Apply(assHealthDamageType type, assIHealthDamageHandler handler)
     {
+        Debug.Log("applying damage");
         base.Apply(type, handler);
         CurrentHealthStatus();
     }

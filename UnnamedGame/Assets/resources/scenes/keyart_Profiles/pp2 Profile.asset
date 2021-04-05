@@ -106,7 +106,7 @@ MonoBehaviour:
     value: 0
   color:
     overrideState: 1
-    value: {r: 0.4198113, g: 1, b: 0.7760948, a: 1}
+    value: {r: 0.254717, g: 0.0012014981, b: 0.0040013297, a: 1}
   fastMode:
     overrideState: 1
     value: 0
@@ -138,7 +138,7 @@ MonoBehaviour:
     value: 35.2
   aperture:
     overrideState: 1
-    value: 9.06
+    value: 24.4
   focalLength:
     overrideState: 1
     value: 187
@@ -155,7 +155,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 8e6292b2c06870d4495f009f912b9600, type: 3}
-  m_Name: pp Profile
+  m_Name: pp2 Profile
   m_EditorClassIdentifier: 
   settings:
   - {fileID: -3992391132269756777}
@@ -267,13 +267,13 @@ MonoBehaviour:
     value: 100
   lift:
     overrideState: 1
-    value: {x: 0.60867405, y: 0.81516844, z: 1, w: -0.14234878}
+    value: {x: 1, y: 0.83619475, z: 0.9938412, w: -0.14234878}
   gamma:
     overrideState: 1
-    value: {x: 1, y: 0.69327086, z: 0.61130357, w: 0.035587195}
+    value: {x: 1, y: 0.7999872, z: 0.72408247, w: -0.6288646}
   gain:
     overrideState: 1
-    value: {x: 0.3985498, y: 0.6222736, z: 1, w: 0.26690388}
+    value: {x: 0.3985498, y: 0.6222736, z: 1, w: 0.76524264}
   masterCurve:
     overrideState: 0
     value:

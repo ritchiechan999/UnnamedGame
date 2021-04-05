@@ -5,6 +5,7 @@ using UnityEngine;
 public class rotateovertime : MonoBehaviour
 {
     public float RotationSpeed;
+    public Vector3 dir;
 
     // Start is called before the first frame update
     void Start()
@@ -15,6 +16,6 @@ public class rotateovertime : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        transform.Rotate(new Vector3(0,0,1) * (RotationSpeed * Time.deltaTime));
+        transform.Rotate(dir * (RotationSpeed * Time.deltaTime));
     }
 }

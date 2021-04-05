@@ -1,7 +1,7 @@
 ﻿// Upgrade NOTE: replaced 'mul(UNITY_MATRIX_MVP,*)' with 'UnityObjectToClipPos(*)'
 
 
-Shader "ShaderPack/Test" {
+Shader "ShaderPack/Rainmove" {
 	Properties {
 		_Opacity ("Opacity", Range(0.1,1)) = 0.5
 		_BumpFactor ("BumpFactor", Range(0,1)) = 0.5
@@ -68,10 +68,10 @@ Shader "ShaderPack/Test" {
 				half3 distortion = UnpackNormal(bump);
 
 
-				//IN.uv.y += _Time.y *0.5 ;
-				//IN.uv.x += sin(IN.uv.y * IN.position.y / 1000000) * 0.01;
+				IN.uv.y += _Time.y *0.5 ;
+				IN.uv.x += sin(IN.uv.y * IN.position.y / 1000000) * 0.01;
 				half4 drop = tex2D(_DropsTex, IN.uv);
-				//float threshold =  abs(drop.a - abs(sin(_Time.y*0.5)));
+				float threshold =  abs(drop.a - abs(sin(_Time.y*0.5)));
 				if (drop.a>0.1){
 					//col = half4(1,0,0,1);
 					IN.uvgrab.y += distortion.g * _BumpFactor * 0.01;
