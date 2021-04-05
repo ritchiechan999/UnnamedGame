@@ -235,7 +235,7 @@ Transform:
   m_LocalScale: {x: 53.033573, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 7
+  m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &432451327
 GameObject:
@@ -267,7 +267,7 @@ Transform:
   m_Children:
   - {fileID: 1942827140}
   m_Father: {fileID: 0}
-  m_RootOrder: 10
+  m_RootOrder: 9
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &432451332
 MonoBehaviour:
@@ -309,11 +309,6 @@ MonoBehaviour:
   Target: {fileID: 0}
   FallMultiplier: 2
   LowJumpMultiplier: 3
-  DamageHit: 0
-  DamageTime: 0
-  DamageTimeTrigger: 2
-  DamageAmount: 0
-  DamageAmountTrigger: 40
   Velocity: {x: 0, y: 0, z: 0}
   CurrentState: 
 --- !u!1 &531983015
@@ -398,7 +393,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 8
+  m_RootOrder: 7
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!70 &531983018
 CapsuleCollider2D:
@@ -521,7 +516,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 6
+  m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 50, y: -30, z: 0}
 --- !u!1 &807739186
 GameObject:
@@ -581,7 +576,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 4
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &878788076
 GameObject:
@@ -648,51 +643,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 1
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1 &1085391599
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1085391601}
-  - component: {fileID: 1085391600}
-  m_Layer: 0
-  m_Name: Debugger
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!114 &1085391600
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1085391599}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7ff15656b4df72a4c814eef94f372395, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  DebugObject: {fileID: 1989702946}
-  testDamage: 20
---- !u!4 &1085391601
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1085391599}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!224 &1184664522 stripped
 RectTransform:
@@ -793,7 +743,7 @@ RectTransform:
   - {fileID: 73146424}
   - {fileID: 1184664522}
   m_Father: {fileID: 0}
-  m_RootOrder: 11
+  m_RootOrder: 10
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
@@ -881,7 +831,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 5
+  m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1942827136
 GameObject:
@@ -1034,11 +984,6 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 4
---- !u!1 &1989702946 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 7080931864319710341, guid: a82d1a32ac9bcdc40abd503270212a28, type: 3}
-  m_PrefabInstance: {fileID: 7080931865151742375}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &2069140794592874685
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1206,7 +1151,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 7080931864319710340, guid: a82d1a32ac9bcdc40abd503270212a28, type: 3}
       propertyPath: m_RootOrder
-      value: 9
+      value: 8
       objectReference: {fileID: 0}
     - target: {fileID: 7080931864319710340, guid: a82d1a32ac9bcdc40abd503270212a28, type: 3}
       propertyPath: m_LocalPosition.x
