@@ -2,8 +2,10 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-//NOTE: all states must have prefix and suffix of ass and State
-//eg. assNavigationState (ass*Name*State)
+/// <summary>
+/// All states must have prefix and suffix of ass and State
+/// eg. assNavigationState (ass*Name*State)
+/// </summary>
 public enum assEntityState
 {
     Unassigned,
@@ -26,7 +28,8 @@ public class assNavigationState : IBaseState<assBaseEntity>
                     MoveEntity(horizontal);
                     Entity.RotateEntity(horizontal);
                     if (Entity.OnGround) {
-                        //MovementAnimation(horizontal);
+                        //float horAbsValue = Mathf.Abs(horizontal);
+                        MovementAnimation(horizontal);
                     }
                     return;
                 }
@@ -45,8 +48,8 @@ public class assNavigationState : IBaseState<assBaseEntity>
                 }
                 break;
             case assMessageType.Jump:
-                //Entity.AnimCtrl.SetTrigger("jump");
-                //Entity.AnimCtrl.SetFloat("nav_speed", 0);
+                Entity.AnimCtrl.SetFloat("nav_speed", 0);
+                Entity.AnimCtrl.SetTrigger("jump");
                 Entity.Velocity = new Vector2(Entity.Velocity.x, 0);
                 Entity.RgdBdy2D.AddForce(Vector2.up * Entity.JumpVelocity, ForceMode2D.Impulse);
                 Entity.JumpTimer = 0;
@@ -78,7 +81,7 @@ public class assNavigationState : IBaseState<assBaseEntity>
 
     public override void OnStateUpdate()
     {
-        //Entity.AnimCtrl.SetFloat("yVelocity", Entity.RgdBdy2D.velocity.y);
+        Entity.AnimCtrl.SetFloat("yVelocity", Entity.RgdBdy2D.velocity.y);
         //Entity.AnimCtrl.SetBool("on_ground", Entity.OnGround);
     }
 
@@ -113,10 +116,15 @@ public class assNavigationState : IBaseState<assBaseEntity>
     //TODO decide later where to put below function
     private void MoveEntity(float xDir)
     {
-        float sprintSpeed = Mathf.Lerp(Entity.MinMaxMoveSpeed.y, Entity.MinMaxMoveSpeed.x, Entity.MoveSmoothSpeed);
-        float runSpeed = Mathf.Lerp(Entity.MinMaxMoveSpeed.x, Entity.MinMaxMoveSpeed.y, Entity.MoveSmoothSpeed);
-        Entity.CurrentSpeed = isSprinting && Entity.OnGround ? sprintSpeed : runSpeed;
-        Entity.RgdBdy2D.velocity = new Vector2(xDir * Entity.CurrentSpeed, Entity.RgdBdy2D.velocity.y);
+        //if has sprint
+        //float sprintSpeed = Mathf.Lerp(Entity.MinMaxMoveSpeed.y, Entity.MinMaxMoveSpeed.x, Entity.MoveSmoothSpeed);
+        //float runSpeed = Mathf.Lerp(Entity.MinMaxMoveSpeed.x, Entity.MinMaxMoveSpeed.y, Entity.MoveSmoothSpeed);
+        //Entity.CurrentSpeed = isSprinting && Entity.OnGround ? sprintSpeed : runSpeed;
+        //Entity.RgdBdy2D.velocity = new Vector2(xDir * Entity.CurrentSpeed, Entity.RgdBdy2D.velocity.y);
+
+        //run only
+        float currentRuntSpeed = Mathf.Lerp(Entity.MinMaxMoveSpeed.x, Entity.MinMaxMoveSpeed.y, Entity.MoveSmoothSpeed);
+        Entity.RgdBdy2D.velocity = new Vector2(xDir * currentRuntSpeed, Entity.RgdBdy2D.velocity.y);
     }
 
     private void MoveEntity(Vector2 direction)
@@ -124,7 +132,6 @@ public class assNavigationState : IBaseState<assBaseEntity>
         Entity.RgdBdy2D.velocity = direction * Entity.MinMaxMoveSpeed.x;
     }
 }
-
 public class assAttackState : IBaseState<assBaseEntity>
 {
     //timer to when the attack lasts
@@ -183,7 +190,6 @@ public class assAttackState : IBaseState<assBaseEntity>
         }
     }
 }
-
 public class assFirstPhaseState : IBaseState<assBaseEntity>
 {
     public assFirstPhaseState(assBaseEntity brain, int initConstruct) : base(brain) { }
@@ -212,7 +218,6 @@ public class assFirstPhaseState : IBaseState<assBaseEntity>
 
     }
 }
-
 public class assFinalPhaseState : IBaseState<assBaseEntity>
 {
     public assFinalPhaseState(assBaseEntity brain, int initConstruct) : base(brain) { }

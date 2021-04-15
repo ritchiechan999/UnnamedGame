@@ -59,6 +59,7 @@ public abstract class assBaseEntity : IBrainFSM, assIHealthDamageHandler
     public float DamageAmount;
     public float DamageAmountTrigger = 40f;
 
+    //use this only for editor stuff
     [Header("Debug")]
     public Vector3 Velocity;
     public string CurrentState = string.Empty;
@@ -77,15 +78,16 @@ public abstract class assBaseEntity : IBrainFSM, assIHealthDamageHandler
     // Start is called before the first frame update
     protected virtual void Start()
     {
-        if (RgdBdy2D == null || AnimCtrl == null)
-            throw new Exception(string.Format("Rigidbody2D or Animator Component unassigned"));
-
         InitializeFSM();
     }
 
     private void InitializeFSM()
     {
-        //TODO add acronym to __${s}State
+        if (RgdBdy2D == null || AnimCtrl == null) {
+            Debug.Break();
+            throw new Exception(string.Format("Rigidbody2D or Animator Component unassigned"));
+        }
+
         foreach (assEntityState s in EntityStates) {
             string strType = $"ass{s}State";
             Type t = Type.GetType(strType);
@@ -120,6 +122,7 @@ public abstract class assBaseEntity : IBrainFSM, assIHealthDamageHandler
     {
         UpdateBrain();
 
+        //check if touching ground
         Vector3 currentPos = RgdBdy2D.transform.position;
         OnGround = Physics2D.Raycast(currentPos + ColliderOffset,
             Vector2.down, GroundLength, assData.GroundLayer);
@@ -133,7 +136,7 @@ public abstract class assBaseEntity : IBrainFSM, assIHealthDamageHandler
             }
         }
 
-        //for test states only
+        //for debugging to states only
         CurrentState = _existing.ToString();
     }
 
@@ -145,6 +148,7 @@ public abstract class assBaseEntity : IBrainFSM, assIHealthDamageHandler
         assPhysicsData.JumpGravityCalculation(RgdBdy2D, FallMultiplier, LowJumpMultiplier);
     }
 
+    //for unity editor purposes only
     protected virtual void OnDrawGizmos()
     {
         if (RgdBdy2D == null)
@@ -206,6 +210,7 @@ public abstract class assBaseEntity : IBrainFSM, assIHealthDamageHandler
         if (DamageHit) {
             DamageAmount += damageTaken;
             if (DamageAmount >= DamageAmountTrigger) {
+                //TODO different entity can have or not have different states
                 //testing first state first
                 SendMessageToBrain(assMessageType.FirstPhaseActivate);
             }
