@@ -59,6 +59,13 @@ public abstract class assBaseEntity : IBrainFSM, assIHealthDamageHandler
     public float DamageAmount;
     public float DamageAmountTrigger = 40f;
 
+    [Header("AI Components")]
+    public asAIType AIType = asAIType.Default;
+    public float ThinkingTime = 1f;
+    public float ShortOffsetThinkResetTime = 1f;
+    public float MediumOffsetThinkReset = 2f;
+    public float LongOffsetThinkResetTime = 3f;
+
     //use this only for editor stuff
     [Header("Debug")]
     public Vector3 Velocity;
@@ -220,6 +227,24 @@ public abstract class assBaseEntity : IBrainFSM, assIHealthDamageHandler
     public virtual void OnApplyCallback(assHealthDamageType type, assIHealthDamageHandler recipient, params object[] args)
     {
         throw new NotImplementedException();
+    }
+
+    public void AIThinkingNextState(asAIType type, float timeToThink)
+    {
+        switch (type) {
+            case asAIType.Default:
+                break;
+            case asAIType.SmallMinion:
+                break;
+            case asAIType.AmerAI:
+                Debug.Log("thinking?");
+                ThinkingTime = timeToThink;
+                ChangeState(typeof(assThinkingState));
+                break;
+            default:
+                break;
+        }
+
     }
 }
 

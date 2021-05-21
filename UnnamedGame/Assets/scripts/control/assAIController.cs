@@ -9,17 +9,39 @@ public class assAIController : assBaseEntity
     public Transform[] TransformationsSpawner;
     public Transform[] RangeSpawnLocations;
 
+    [Header("Debug")]
+    public string TargetName = "Shop Location";
+
     // Start is called before the first frame update
     protected override void Start()
     {
         base.Start();
+        Initialize();
+    }
+
+    private void Initialize()
+    {
+        switch (AIType) {
+            case asAIType.Default:
+                IsAIBoss = false;
+                break;
+            case asAIType.SmallMinion:
+                IsAIBoss = false;
+                break;
+            case asAIType.AmerAI:
+                IsAIBoss = true;
+                //debug only, to be removed or get the target from the game manager
+                Target = GameObject.Find(TargetName).transform;
+                break;
+        }
     }
 
     // Update is called once per frame
     protected override void Update()
     {
         base.Update();
-        DetectEntity();
+        if (!IsAIBoss)
+            DetectEntity();
     }
 
     private void DetectEntity()
@@ -61,4 +83,15 @@ public class assAIController : assBaseEntity
             SendMessageToBrain(assMessageType.FinalPhaseActivate, IsInvulnerable);
         }
     }
+}
+
+/// <summary>
+/// classifications of AI. all can be categorize here
+/// </summary>
+public enum asAIType
+{
+    Default,
+    SmallMinion,
+    AmerAI,
+
 }

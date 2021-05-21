@@ -7,4 +7,9 @@ public static class ExtensionCore
     {
         return (mask & (1 << layer)) != 0;
     }
+
+    public static T GetRandom<T>(this T[] array)
+    {
+        return array[Random.Range(0, array.Length)];
+    }
 }

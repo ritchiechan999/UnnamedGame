@@ -253,7 +253,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &432451331
 Transform:
   m_ObjectHideFlags: 0
@@ -262,7 +262,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 432451327}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: -27.91, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 1942827140}
@@ -283,6 +283,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   BrainEnabled: 1
   IsAI: 0
+  IsAIBoss: 0
   currentHealth: 100
   maxHealth: 100
   takeNoDamage: 0
@@ -314,6 +315,11 @@ MonoBehaviour:
   DamageTimeTrigger: 2
   DamageAmount: 0
   DamageAmountTrigger: 40
+  AIType: 0
+  ThinkingTime: 1
+  ShortOffsetThinkResetTime: 1
+  MediumOffsetThinkReset: 2
+  LongOffsetThinkResetTime: 3
   Velocity: {x: 0, y: 0, z: 0}
   CurrentState: 
 --- !u!1 &492620159
@@ -328,12 +334,12 @@ GameObject:
   - component: {fileID: 492620160}
   - component: {fileID: 492620162}
   m_Layer: 0
-  m_Name: Boss Test
+  m_Name: Boss Animation Test
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!212 &492620160
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -1982,6 +1988,10 @@ PrefabInstance:
       value: Debugger
       objectReference: {fileID: 0}
     - target: {fileID: 6183321264219168258, guid: e1beb767fd44ac84aac26f0fe8495bbf, type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6183321264219168258, guid: e1beb767fd44ac84aac26f0fe8495bbf, type: 3}
       propertyPath: animateTest
       value: 
       objectReference: {fileID: 492620159}
@@ -2000,11 +2010,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7080931864319710340, guid: a82d1a32ac9bcdc40abd503270212a28, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 6.5
+      value: 5.76
       objectReference: {fileID: 0}
     - target: {fileID: 7080931864319710340, guid: a82d1a32ac9bcdc40abd503270212a28, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0
+      value: 2.62
       objectReference: {fileID: 0}
     - target: {fileID: 7080931864319710340, guid: a82d1a32ac9bcdc40abd503270212a28, type: 3}
       propertyPath: m_LocalPosition.z
@@ -2044,7 +2054,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7080931864319710341, guid: a82d1a32ac9bcdc40abd503270212a28, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: a82d1a32ac9bcdc40abd503270212a28, type: 3}

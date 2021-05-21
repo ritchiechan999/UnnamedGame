@@ -46,15 +46,16 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   BrainEnabled: 1
   IsAI: 1
+  IsAIBoss: 0
   currentHealth: 100
   maxHealth: 100
-  chanceToInvulnerability: 1
+  takeNoDamage: 0
   normalValue: 5
   skillValue: 10
   ultimateValue: 20
   EntityTeam: 2
-  EntityStates: 01000000020000000300000004000000
-  FirstEntityState: 1
+  EntityStates: 0100000002000000030000000400000005000000
+  FirstEntityState: 5
   RgdBdy2D: {fileID: 7080931865624613676}
   AnimCtrl: {fileID: 7080931865624613677}
   MinMaxMoveSpeed: {x: 4, y: 15}
@@ -67,16 +68,27 @@ MonoBehaviour:
   GroundLength: 0.6
   ColliderOffset: {x: 0, y: -0.6, z: 0}
   OnGround: 0
-  DetectRadius: 12
+  DetectRadius: 25
   DistanceTreshold: 11
   Target: {fileID: 0}
   FallMultiplier: 2.5
   LowJumpMultiplier: 2
+  DamageHit: 0
+  DamageTime: 0
+  DamageTimeTrigger: 2
+  DamageAmount: 0
+  DamageAmountTrigger: 40
+  AIType: 2
+  ThinkingTime: 1
+  ShortOffsetThinkResetTime: 1
+  MediumOffsetThinkReset: 2
+  LongOffsetThinkResetTime: 3
   Velocity: {x: 0, y: 0, z: 0}
   CurrentState: 
   HealthPercentChangePhase: 20
   TransformationsSpawner: []
   RangeSpawnLocations: []
+  TargetName: Shop Location
 --- !u!1 &7080931865624613679
 GameObject:
   m_ObjectHideFlags: 0
@@ -172,7 +184,7 @@ BoxCollider2D:
   m_Enabled: 1
   m_Density: 1
   m_Material: {fileID: 0}
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
   m_Offset: {x: 0.053754687, y: 0.011861473}
@@ -203,7 +215,7 @@ Rigidbody2D:
   m_Mass: 1
   m_LinearDrag: 0
   m_AngularDrag: 0.05
-  m_GravityScale: 1
+  m_GravityScale: 0
   m_Material: {fileID: 0}
   m_Interpolate: 0
   m_SleepingMode: 1

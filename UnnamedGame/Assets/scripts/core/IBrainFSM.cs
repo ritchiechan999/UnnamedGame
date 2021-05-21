@@ -11,6 +11,8 @@ public abstract class IBrainFSM : MonoBehaviour
     [Header("Entity Property")]
     public bool BrainEnabled = true;
     public bool IsAI = true;
+    //[HideInInspector]
+    public bool IsAIBoss = false;
 
     public void RegisterState(IState state)
     {
@@ -104,5 +106,7 @@ public enum assMessageType
     Attack,
     Flinch,
     FinalPhaseActivate,
-    FirstPhaseActivate
+    FirstPhaseActivate,
+    Think,
+
 }

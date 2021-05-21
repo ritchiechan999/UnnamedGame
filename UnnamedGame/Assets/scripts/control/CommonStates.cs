@@ -12,7 +12,9 @@ public enum assEntityState
     Navigation,
     Attack,
     FirstPhase,
-    FinalPhase
+    FinalPhase,
+    Thinking,
+
 }
 
 public class assNavigationState : IBaseState<assBaseEntity>
@@ -34,7 +36,7 @@ public class assNavigationState : IBaseState<assBaseEntity>
                     return;
                 }
 
-                if (Entity.IsAI) {
+                if (Entity.IsAI && !Entity.IsAIBoss) {
                     Transform target = (Transform)args[0];
                     if (Vector2.Distance(Entity.RgdBdy2D.position, target.position) < Entity.DistanceTreshold) {
                         //TODO send message to do attack state or something
@@ -45,7 +47,10 @@ public class assNavigationState : IBaseState<assBaseEntity>
                     direction.y = 0;
                     MoveEntity(direction);
                     Entity.RotateEntity(direction.x);
+                } else {
+                    //roam around
                 }
+
                 break;
             case assMessageType.Jump:
                 Entity.AnimCtrl.SetFloat("nav_speed", 0);
@@ -77,6 +82,7 @@ public class assNavigationState : IBaseState<assBaseEntity>
 
     public override void OnStateExit(object[] args)
     {
+        Entity.AIThinkingNextState(Entity.AIType, Entity.ShortOffsetThinkResetTime);
     }
 
     public override void OnStateUpdate()
@@ -132,6 +138,63 @@ public class assNavigationState : IBaseState<assBaseEntity>
         Entity.RgdBdy2D.velocity = direction * Entity.MinMaxMoveSpeed.x;
     }
 }
+public class assThinkingState : IBaseState<assBaseEntity>
+{
+    public assThinkingState(assBaseEntity brain, int initConstruct) : base(brain) { }
+    public override void OnReceiveMessage(assMessageType msgType, object[] args)
+    {
+        //switch (msgType) {
+        //    case assMessageType.Think:
+        //        Entity.ThinkingTime = (float)args[0];
+        //        break;
+        //    default:
+        //        break;
+        //}
+    }
+
+    public override void OnStateEnter(object[] args)
+    {
+    }
+
+    public override void OnStateExit(object[] args)
+    {
+    }
+
+    public override void OnStateUpdate()
+    {
+        Entity.ThinkingTime -= Time.deltaTime;
+        if (Entity.ThinkingTime <= 0) {
+            ThinkProcess();
+        }
+    }
+
+    private void ThinkProcess()
+    {
+        assEntityState randNextAction = Entity.EntityStates.GetRandom();
+        switch (randNextAction) {
+            case assEntityState.Navigation:
+                Debug.Log("Transition to nav state");
+                Entity.ChangeState(typeof(assNavigationState));
+                break;
+            case assEntityState.Attack:
+                Debug.Log("Transition to atk state");
+                Entity.ChangeState(typeof(assAttackState), Entity.Target);
+                break;
+            case assEntityState.FirstPhase:
+                Debug.Log("think again");
+                ThinkProcess();
+                break;
+            case assEntityState.FinalPhase:
+                Debug.Log("think again");
+                ThinkProcess();
+                break;
+            case assEntityState.Thinking:
+                Debug.Log("think again");
+                ThinkProcess();
+                break;
+        }
+    }
+}
 public class assAttackState : IBaseState<assBaseEntity>
 {
     //timer to when the attack lasts
@@ -145,6 +208,9 @@ public class assAttackState : IBaseState<assBaseEntity>
             case assMessageType.Attack:
                 //tdAttack currentAtk = (tdAttack)args[0];
                 //Entity.AnimCtrl.SetInteger("anim_state", (int)currentAtk.AnimState);
+
+                //TODO if boss AI check if melee or range
+
                 break;
             case assMessageType.Flinch:
                 break;
@@ -186,7 +252,8 @@ public class assAttackState : IBaseState<assBaseEntity>
     {
         attackDuration -= Time.deltaTime;
         if (attackDuration <= 0) {
-            Entity.ChangeState(typeof(assNavigationState));
+            //Entity.ChangeState(typeof(assNavigationState));
+            Entity.AIThinkingNextState(Entity.AIType,Entity.MediumOffsetThinkReset);
         }
     }
 }
