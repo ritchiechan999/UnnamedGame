@@ -33,10 +33,7 @@ public class assNavigationState : IBaseState<assBaseEntity>
                         //float horAbsValue = Mathf.Abs(horizontal);
                         MovementAnimation(horizontal);
                     }
-                    return;
-                }
-
-                if (Entity.IsAI && !Entity.IsAIBoss) {
+                } else if (!Entity.IsAIBoss) {
                     Transform target = (Transform)args[0];
                     if (Vector2.Distance(Entity.RgdBdy2D.position, target.position) < Entity.DistanceTreshold) {
                         //TODO send message to do attack state or something
@@ -47,10 +44,7 @@ public class assNavigationState : IBaseState<assBaseEntity>
                     direction.y = 0;
                     MoveEntity(direction);
                     Entity.RotateEntity(direction.x);
-                } else {
-                    //roam around
                 }
-
                 break;
             case assMessageType.Jump:
                 Entity.AnimCtrl.SetFloat("nav_speed", 0);
@@ -76,19 +70,43 @@ public class assNavigationState : IBaseState<assBaseEntity>
         }
     }
 
+    private bool randomMove;
+    private Vector3 randLocation;
+
     public override void OnStateEnter(object[] args)
     {
+        randomMove = (bool)args[0];
+        if (randomMove) {
+            //initial position when spawned. find other better alternative
+            Vector2 randInsideCircle = Random.insideUnitCircle;
+            randLocation = randInsideCircle * Entity.randomTravelThreshold + (Vector2)Entity.InitialPosition;
+            Debug.Log("location: " + randLocation);
+        }
     }
 
     public override void OnStateExit(object[] args)
     {
-        Entity.AIThinkingNextState(Entity.AIType, Entity.ShortOffsetThinkResetTime);
+        //Entity.AIThinkingNextState(Entity.AIType, Entity.ShortOffsetThinkResetTime);
+        randomMove = false;
     }
 
     public override void OnStateUpdate()
     {
         Entity.AnimCtrl.SetFloat("yVelocity", Entity.RgdBdy2D.velocity.y);
         //Entity.AnimCtrl.SetBool("on_ground", Entity.OnGround);
+
+        if (randomMove) {
+            if (Vector2.Distance(Entity.RgdBdy2D.position, randLocation) < Entity.DistanceTreshold) {
+                Entity.AIThinkingNextState(Entity.AIType, Entity.ShortOffsetThinkResetTime);
+                return;
+            }
+            Entity.RgdBdy2D.position = Vector2.MoveTowards(Entity.RgdBdy2D.position, randLocation, 
+                Entity.MinMaxMoveSpeed.x * Time.deltaTime);
+
+            Vector2 direction = ((Vector2)randLocation - Entity.RgdBdy2D.position).normalized;
+            Entity.RotateEntity(direction.x);
+        }
+
     }
 
     public float SprintDownSpeed = 0.1f;
@@ -154,6 +172,7 @@ public class assThinkingState : IBaseState<assBaseEntity>
 
     public override void OnStateEnter(object[] args)
     {
+
     }
 
     public override void OnStateExit(object[] args)
@@ -170,11 +189,13 @@ public class assThinkingState : IBaseState<assBaseEntity>
 
     private void ThinkProcess()
     {
+        //to optimize to think equally between attacks and phase only.
         assEntityState randNextAction = Entity.EntityStates.GetRandom();
         switch (randNextAction) {
             case assEntityState.Navigation:
                 Debug.Log("Transition to nav state");
-                Entity.ChangeState(typeof(assNavigationState));
+                bool randomMove = true;
+                Entity.ChangeState(typeof(assNavigationState), randomMove);
                 break;
             case assEntityState.Attack:
                 Debug.Log("Transition to atk state");
@@ -230,7 +251,7 @@ public class assAttackState : IBaseState<assBaseEntity>
             //Entity.AnimCtrl.SetInteger("anim_state", (int)currentAtk.AnimState);
         }
 
-        //prototype TODO: to improved
+        //prototype TODO: to improve
         if (Entity.IsAI) {
             Transform target = (Transform)args[0];
 
@@ -253,7 +274,7 @@ public class assAttackState : IBaseState<assBaseEntity>
         attackDuration -= Time.deltaTime;
         if (attackDuration <= 0) {
             //Entity.ChangeState(typeof(assNavigationState));
-            Entity.AIThinkingNextState(Entity.AIType,Entity.MediumOffsetThinkReset);
+            Entity.AIThinkingNextState(Entity.AIType, Entity.MediumOffsetThinkReset);
         }
     }
 }

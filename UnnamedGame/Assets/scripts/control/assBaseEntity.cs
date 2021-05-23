@@ -42,9 +42,13 @@ public abstract class assBaseEntity : IBrainFSM, assIHealthDamageHandler
     public bool OnGround;
 
     [Header("Detection")]
+    [Range(1, 50)]
     public float DetectRadius = 3f;
+    [Range(0, 15)]
     public float DistanceTreshold = 1.5f;
     public Transform Target;
+    public Vector3 InitialPosition = Vector3.zero;
+    public float randomTravelThreshold = 20f;
 
     [Header("Physics 2D")]
     [Range(1, 5)]
@@ -94,6 +98,8 @@ public abstract class assBaseEntity : IBrainFSM, assIHealthDamageHandler
             Debug.Break();
             throw new Exception(string.Format("Rigidbody2D or Animator Component unassigned"));
         }
+
+        InitialPosition = RgdBdy2D.transform.position;
 
         foreach (assEntityState s in EntityStates) {
             string strType = $"ass{s}State";
@@ -167,6 +173,9 @@ public abstract class assBaseEntity : IBrainFSM, assIHealthDamageHandler
         if (IsAI) {
             Gizmos.color = Color.green;
             Gizmos.DrawWireSphere(currentPos, DetectRadius);
+
+            Gizmos.color = Color.yellow;
+            Gizmos.DrawWireSphere(InitialPosition, randomTravelThreshold);
         }
 
         //for ground

@@ -308,6 +308,8 @@ MonoBehaviour:
   DetectRadius: 3
   DistanceTreshold: 1.5
   Target: {fileID: 0}
+  InitialPosition: {x: 0, y: 0, z: 0}
+  randomTravelThreshold: 0
   FallMultiplier: 2
   LowJumpMultiplier: 3
   DamageHit: 0

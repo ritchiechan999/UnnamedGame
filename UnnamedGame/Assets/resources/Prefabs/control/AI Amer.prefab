@@ -69,8 +69,10 @@ MonoBehaviour:
   ColliderOffset: {x: 0, y: -0.6, z: 0}
   OnGround: 0
   DetectRadius: 25
-  DistanceTreshold: 11
+  DistanceTreshold: 0.5
   Target: {fileID: 0}
+  InitialPosition: {x: 0, y: 0, z: 0}
+  randomTravelThreshold: 15
   FallMultiplier: 2.5
   LowJumpMultiplier: 2
   DamageHit: 0
@@ -208,7 +210,7 @@ Rigidbody2D:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7080931865624613679}
-  m_BodyType: 0
+  m_BodyType: 1
   m_Simulated: 1
   m_UseFullKinematicContacts: 0
   m_UseAutoMass: 0
